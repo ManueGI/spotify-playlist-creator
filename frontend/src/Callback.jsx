@@ -15,7 +15,8 @@ export default function Callback({ setToken }) {
       }
 
       try {
-        const res = await fetch('http://localhost:3001/api/exchange_token', {
+        const apiBase = import.meta.env.VITE_API_BASE;
+        const res = await fetch(`${apiBase}/api/exchange_token`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ code }),
