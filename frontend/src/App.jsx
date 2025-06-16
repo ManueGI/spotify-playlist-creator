@@ -19,7 +19,7 @@ export default function App() {
 
   return (
     <div>
-      <h1>🎵 Quiz Flower Power</h1>
+      <h1>🎵 Générateur de playlist sur Spotify🎵</h1>
 
       {!token && (
         <button onClick={handleLogin}>Se connecter avec Spotify</button>
@@ -28,7 +28,13 @@ export default function App() {
       <Routes>
         <Route
           path="/"
-          element={<p>Bienvenue ! Connectez-vous pour accéder au dashboard.</p>}
+          element={
+            token ? (
+              <p>Bienvenue ! Cliquez sur "Accéder au générateur" pour créer votre playlist.</p>
+            ) : (
+              <p>Bienvenue ! Connectez-vous pour accéder au dashboard.</p>
+            )
+          }
         />
         <Route path="/callback" element={<Callback setToken={setToken} />} />
         <Route path="/dashboard" element={<Dashboard />} />
