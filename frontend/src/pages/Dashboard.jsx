@@ -38,7 +38,8 @@ export default function Dashboard() {
     }
 
     try {
-      const res = await fetch('http://localhost:3001/api/create_playlist', {
+      const apiBase = import.meta.env.VITE_API_BASE_URL;
+      const res = await fetch(`${apiBase}/api/create_playlist`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ token, songs, name: playlistName, description: playlistDesc })
