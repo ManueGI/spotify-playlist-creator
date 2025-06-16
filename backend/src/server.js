@@ -5,26 +5,29 @@
 // import dotenv from "dotenv";
 
 // dotenv.config();
-const express = require('express');
-const cors = require('cors');
-const axios = require('axios');
-const dotenv = require('dotenv');
-const { generatePlaylist } = require('./functions/generatePlaylist');
+const express = require("express");
+const cors = require("cors");
+const axios = require("axios");
+const dotenv = require("dotenv");
+const { generatePlaylist } = require("./functions/generatePlaylist");
 
 const app = express();
-app.use(cors({
-  origin: [
-    "https://spotify-playlist-creator-alpha.vercel.app",
-    "http://localhost:5173"
-  ]
-}));
+app.use(
+  cors({
+    origin: [
+      "https://spotify-playlist-creator-alpha.vercel.app",
+      "http://127.0.0.1:5173",
+    ],
+  })
+);
 app.use(express.json());
 
 dotenv.config();
 
 const clientId = process.env.SPOTIFY_CLIENT_ID;
 const clientSecret = process.env.SPOTIFY_CLIENT_SECRET;
-const redirectUri = process.env.SPOTIFY_REDIRECT_URI || "http://127.0.0.1:5173/callback";
+const redirectUri =
+  process.env.SPOTIFY_REDIRECT_URI || "http://127.0.0.1:5173/callback";
 
 app.get("/api/spotify_client_id", (req, res) => {
   res.json({ clientId: process.env.SPOTIFY_CLIENT_ID });
@@ -40,14 +43,20 @@ app.post("/api/exchange_token", async (req, res) => {
     params.append("code", code);
     params.append("redirect_uri", redirectUri);
 
-    const basicAuth = Buffer.from(`${clientId}:${clientSecret}`).toString("base64");
+    const basicAuth = Buffer.from(`${clientId}:${clientSecret}`).toString(
+      "base64"
+    );
 
-    const response = await axios.post("https://accounts.spotify.com/api/token", params, {
-      headers: {
-        Authorization: `Basic ${basicAuth}`,
-        "Content-Type": "application/x-www-form-urlencoded",
-      },
-    });
+    const response = await axios.post(
+      "https://accounts.spotify.com/api/token",
+      params,
+      {
+        headers: {
+          Authorization: `Basic ${basicAuth}`,
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
+      }
+    );
 
     res.json(response.data); // { access_token, token_type, expires_in, refresh_token, scope }
   } catch (error) {
@@ -56,10 +65,10 @@ app.post("/api/exchange_token", async (req, res) => {
   }
 });
 
-app.post('/api/create_playlist', async (req, res) => {
+app.post("/api/create_playlist", async (req, res) => {
   const { token, songs, name, description } = req.body;
   if (!token || !Array.isArray(songs)) {
-    return res.status(400).json({ error: 'Token ou chansons manquants' });
+    return res.status(400).json({ error: "Token ou chansons manquants" });
   }
 
   try {
@@ -71,10 +80,9 @@ app.post('/api/create_playlist', async (req, res) => {
 });
 
 const PORT = process.env.PORT || 3001;
-app.get('/', (req, res) => {
-  res.send('Backend fonctionne');
+app.get("/", (req, res) => {
+  res.send("Backend fonctionne");
 });
-
 
 app.listen(PORT, () => {
   console.log(`Backend running on http://localhost:${PORT}`);
