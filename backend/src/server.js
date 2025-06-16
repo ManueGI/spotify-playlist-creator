@@ -12,7 +12,6 @@ const dotenv = require('dotenv');
 const { generatePlaylist } = require('./functions/generatePlaylist');
 
 const app = express();
-const cors = require('cors');
 app.use(cors({
   origin: [
     "https://spotify-playlist-creator-alpha.vercel.app",
