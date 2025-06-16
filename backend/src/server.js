@@ -12,7 +12,13 @@ const dotenv = require('dotenv');
 const { generatePlaylist } = require('./functions/generatePlaylist');
 
 const app = express();
-app.use(cors());
+const cors = require('cors');
+app.use(cors({
+  origin: [
+    "https://spotify-playlist-creator-alpha.vercel.app",
+    "http://localhost:5173"
+  ]
+}));
 app.use(express.json());
 
 dotenv.config();
