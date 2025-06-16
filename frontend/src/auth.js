@@ -12,7 +12,7 @@ let cachedClientId = null;
 
 async function fetchClientId() {
   if (cachedClientId) return cachedClientId;
-   const res = await fetch(`${import.meta.env.VITE_API_BASE}/api/spotify_client_id`);
+   const res = await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/spotify_client_id`);
   const data = await res.json();
   cachedClientId = data.clientId;
   return cachedClientId;
