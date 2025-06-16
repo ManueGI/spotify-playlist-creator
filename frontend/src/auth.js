@@ -20,7 +20,6 @@ async function fetchClientId() {
 
 export const getAuthUrl = async () => {
   const clientId = await fetchClientId();
-  console.log("clientId →", clientId); // pour vérifier
   const redirectUri = import.meta.env.VITE_SPOTIFY_REDIRECT_URI; // Ne pas encoder cette URL
 
   const scopeParam = encodeURIComponent(scopes.join(" "));
